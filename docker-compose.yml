@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+
+  api:
+    build: .
+    command: "uvicorn main:app --host 0.0.0.0 --port 80"
+    environment:
+      DOCKER_RUNNING: "True"
+    volumes:
+     - .:/opt/fapro_sii
+    ports:
+      - "80:80"
+    
+volumes:
+  db-data:
+
